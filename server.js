@@ -13,12 +13,30 @@ app.get('/', (req, res) => {
 
 app.get('/tweet', async (req, res) => {
   try {
-    const makeTweet = await getQuote()
+    const newPoem = await getQuote()
+    const tweetPoem = await postTweet(newPoem)
+    res.send(tweetPoem)
   } catch (err) {
     console.log(err)
     res.send("Something didn't work out :(")
   }
 })
+
+// Fetch quote from API
+const getQuote = async() => {
+  try {
+    const maxPoems = process.env.MAX_NUMBER
+    const number = Math.floor(Math.random() * maxPoems) + 1
+    const apiUrl = `${process.env.API_URL}/poemas/${number}`
+
+    const res = await axios.get(apiUrl)
+    const poem = res.data.frase
+    
+    return poem
+  } catch (err) {
+    console.error(err)
+  }
+}
 
 // Twitter app config
 const T = new Twit({
@@ -28,20 +46,16 @@ const T = new Twit({
   access_token_secret: process.env.ACCESS_TOKEN_SECRET
 })
 
-// Fetch quote from API
-const getQuote = async() => {
+const postTweet = async (poem) => {
   try {
-    const maxPoems = process.env.MAX_NUMBER
-    console.log(maxPoems)
-    const number = Math.floor(Math.random() * maxPoems) + 1
-    console.log(number)
-    const apiUrl = `${process.env.API_URL}/poemas/${number}`
-
-    const res = await axios.get(apiUrl)
-    const poem = res.data
-    console.log(poem)
+    const tweet = await T.post('statuses/update', {
+      status: poem
+    })
+    console.log(tweet.resp.toJSON().statusCode)
+    return 'Tweet sent :)'
   } catch (err) {
     console.error(err)
+    return 'Error while tweeting :('
   }
 }
 
