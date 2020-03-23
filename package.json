@@ -7,10 +7,14 @@
   "author": "Flor Lafuente <lafuente.florencia@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.19.2",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "nodemon": "^2.0.2",
+    "twit": "^2.2.11"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   }
 }
