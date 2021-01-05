@@ -7,7 +7,7 @@
   "author": "Flor Lafuente <lafuente.florencia@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "nodemon": "^2.0.2",
